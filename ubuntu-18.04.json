@@ -1,0 +1,65 @@
+{
+    "variables": {
+        "username": "root@pam",
+        "password": "srufle"
+    },
+    "builders": [
+        {
+            "type": "proxmox",
+            "proxmox_url": "https://pve01.ruflehouse.com:8006/api2/json",
+            "insecure_skip_tls_verify": true,
+            "username": "{{user `username`}}",
+            "password": "{{user `password`}}",
+            "node": "pve01",
+            "network_adapters": [
+                {
+                    "bridge": "vmbr0"
+                }
+            ],
+            "memory": 1024,
+            "disks": [
+                {
+                    "type": "scsi",
+                    "disk_size": "20G",
+                    "storage_pool": "local-lvm",
+                    "storage_pool_type": "lvm"
+                }
+            ],
+            "iso_file": "local:iso/ubuntu-18.04.4-live-server-amd64.iso",
+            "http_directory": "config",
+            "boot_wait": "60s",
+            "boot_command": [
+                "<esc><wait>",
+                "<esc><wait>",
+                "<enter><wait>",
+                "<enter><wait>",
+                "<enter><wait>",
+                "<enter><wait>",
+                "<enter><wait>",
+                "<down><wait>",
+                "<enter><wait>",
+                "<enter><wait>",
+                "<enter><wait>",
+                "<down><wait>",
+                "<enter><wait>",
+                "sandbox<enter>",
+                "ubuntu-template<enter>",
+                "sandbox<enter>",
+                "Passw0rd1!<enter>",
+                "Passw0rd1!<enter>",
+                "<enter><wait>",
+                "<enter><wait>",
+                "<tab><wait><tab><wait>",
+                "<enter><wait><wait><wait><wait><wait><wait><wait><wait>",
+                "<enter><wait><wait>",
+                "<enter><wait>"
+            ],
+            "ssh_username": "sandbox",
+            "ssh_timeout": "15m",
+            "ssh_password": "Passw0rd1!",
+            "unmount_iso": true,
+            "template_name": "ubuntu-18.04",
+            "template_description": "ubuntu-18.04, generated on {{ isotime \"2006-01-02T15:04:05Z\" }}"
+        }
+    ]
+}
