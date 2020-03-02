@@ -3,6 +3,13 @@
         "username": "root@pam",
         "password": "srufle"
     },
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "echo 'sandbox' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/setup.sh"
+        }
+    ],
     "builders": [
         {
             "type": "proxmox",
@@ -25,41 +32,45 @@
                     "storage_pool_type": "lvm"
                 }
             ],
-            "iso_file": "local:iso/ubuntu-18.04.4-live-server-amd64.iso",
+            "iso_file": "local:iso/ubuntu-18.04.4-server-amd64.iso",
             "http_directory": "config",
-            "boot_wait": "60s",
+            "boot_wait": "3s",
             "boot_command": [
-                "<esc><wait>",
-                "<esc><wait>",
-                "<enter><wait>",
-                "<enter><wait>",
-                "<enter><wait>",
-                "<enter><wait>",
-                "<enter><wait>",
-                "<down><wait>",
-                "<enter><wait>",
-                "<enter><wait>",
-                "<enter><wait>",
-                "<down><wait>",
-                "<enter><wait>",
-                "sandbox<enter>",
-                "ubuntu-template<enter>",
-                "sandbox<enter>",
-                "Passw0rd1!<enter>",
-                "Passw0rd1!<enter>",
-                "<enter><wait>",
-                "<enter><wait>",
-                "<tab><wait><tab><wait>",
-                "<enter><wait><wait><wait><wait><wait><wait><wait><wait>",
-                "<enter><wait><wait>",
+                "<esc><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "/install/vmlinuz<wait>",
+                " auto<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-setup/layoutcode=us<wait>",
+                " console-setup/modelcode=pc105<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " debian-installer=en_US<wait>",
+                " fb=false<wait>",
+                " initrd=/install/initrd.gz<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/layout=USA<wait>",
+                " keyboard-configuration/variant=USA<wait>",
+                " locale=en_US<wait>",
+                " netcfg/get_domain=ruflehouse.com<wait>",
+                " netcfg/get_hostname=ubuntu-template<wait>",
+                " grub-installer/bootdev=/dev/sda<wait>",
+                " noapic<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+                " -- <wait>",
                 "<enter><wait>"
             ],
+            "communicator": "ssh",
             "ssh_username": "sandbox",
-            "ssh_timeout": "15m",
-            "ssh_password": "Passw0rd1!",
+            "ssh_password": "sandbox",
+            "ssh_port": 22,
+            "ssh_host": "ubuntu-template",
+            "ssh_handshake_attempts": 100,
+            "ssh_timeout": "25m",
             "unmount_iso": true,
             "template_name": "ubuntu-18.04",
-            "template_description": "ubuntu-18.04, generated on {{ isotime \"2006-01-02T15:04:05Z\" }}"
+            "template_description": "ubuntu-18.04"
         }
     ]
 }
