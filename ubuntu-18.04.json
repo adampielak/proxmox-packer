@@ -8,6 +8,11 @@
             "type": "shell",
             "execute_command": "echo 'sandbox' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
             "script": "scripts/setup.sh"
+        },
+        {
+            "type": "shell",
+            "execute_command": "echo 'sandbox' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/stop.sh"
         }
     ],
     "builders": [
